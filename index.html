@@ -92,8 +92,14 @@
 	            });
 
 	        // draw scatter
+	        aqiScatter(citydata, dotColorScale, tooltip_aqi);
+
+
+        }
+
+        function aqiScatter(slide_data, dotColorScale, tooltip_aqi){
             svg.selectAll("circle")
-                .data(citydata)
+                .data(slide_data)
                 .enter()
                 .append("circle")
                 .attr("class","map")
@@ -118,8 +124,6 @@
 	                    .duration(500)
 	                    .style("opacity", 0);               
                 });
-
-
         }
 
 
