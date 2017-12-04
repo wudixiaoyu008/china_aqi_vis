@@ -1,0 +1,34 @@
+body{
+	background: #404a59;
+}
+
+.tooltip_aqi {
+      position: absolute;
+      z-index: 9999;
+      padding: 0;
+      color: #fff;
+      background: rgba(0,0,0,0.4);
+      font-size: 14px;
+      text-align: left;
+      border-radius: 3px;
+      pointer-events: none;
+      line-height: 20px;
+      /*border: 5px solid red;*/
+    }
+
+.tooltip_map {
+      position: absolute;
+      z-index: 9999;
+      padding: 0;
+      color: #000;
+      font-size: 13px;
+      text-align: left;
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+.slider {
+      top: -330px;
+      left: 30px;
+      width: 20%;
+}

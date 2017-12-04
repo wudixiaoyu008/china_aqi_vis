@@ -3,13 +3,20 @@
 <head>
   	<meta charset="UTF-8">
   	<title>Chinese map Demo</title>
-  	<link rel="stylesheet" href="style.css">
+  	<link rel="stylesheet" href="style/style.css">
+  	<link rel="stylesheet" href="style/d3.slider.css">  
 </head>
 <body>
+	<!-- map and scatter -->
 	<div id="china-map"></div>
+
+	<!-- slider for map -->
+	<div id="slider" class="slider"></div>
+	<span id="slider3textmin"></span>, <span id="slider3textmax"></span>
 
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="js/d3.slider.js"></script>
 	<!-- <script src="map.js"></script> -->
 	<script>
 	    var width = 1300;
@@ -30,16 +37,17 @@
 	        .projection(projection);
 
 
-	    //var color = d3.scale.category10();
-
         queue()
             .defer(d3.json, "https://gist.githubusercontent.com/zhulinpinyu/8e18d57b3b18fb74e776/raw/efbb74cfea53decb1fe7d6bf279fd351c28c4810/china_simplify.json")
-            .defer(d3.json, "aqi_data.json")
+            .defer(d3.json, "data/aqi_data.json")
             .await(ready);  
 
 
-	    function ready(error, root, citydata) {
+	    function ready(error, map, citydata) {
             if (error) throw error;
+
+            let all_city = citydata
+            let filter_city = citydata
 
             // color scale
 			var aqi_min = Math.min(...citydata.map( a => a.value[2])) + 11;
@@ -64,6 +72,27 @@
 	            .style("opacity", 0);
 
 	        // draw map
+	        chinaMap(map, tooltip_map);
+
+	        // draw scatter
+	        aqiScatter(all_city, dotColorScale, tooltip_aqi);
+
+	        // slider for scatter	    
+		    d3.select('#slider').call(d3.slider().value([0, 400]).axis(true).min(0).max(400).on("slide", function(evt, value) {
+
+		        filter_city = citydata.filter(a => a.value[2] > value[0] && a.value[2] < value[1]);
+
+		        svg.selectAll("circle").remove();
+
+		        aqiScatter(filter_city, dotColorScale, tooltip_aqi);
+		        
+		    }));	    
+
+
+        }
+
+
+        function chinaMap(root, tooltip_map){
 	        svg.selectAll("path")
 	            .data(root.features)
 	            .enter()
@@ -90,11 +119,6 @@
 	                    .duration(500)
 	                    .style("opacity", 0);
 	            });
-
-	        // draw scatter
-	        aqiScatter(citydata, dotColorScale, tooltip_aqi);
-
-
         }
 
         function aqiScatter(slide_data, dotColorScale, tooltip_aqi){
@@ -110,9 +134,10 @@
                 .style("opacity",.8)
                 .on("mouseover", function(d) {   
 	                d3.select(this).attr("r", 13);
+	                d3.select(this).attr("opacity", 1);
 	                tooltip_aqi.transition()
 	                    .duration(200)
-	                    .style("opacity", .9);
+	                    .style("opacity", 0.9);
 
 	                tooltip_aqi.html(d.name + "<br>AQI: " + d.value[2])
 	                    .style("left", (d3.event.pageX + 20) + "px")
@@ -120,9 +145,15 @@
                     })                  
                 .on("mouseout", function(d) {       
 	                d3.select(this).attr("r", 6);
+	                d3.select(this).attr("opacity", .8);
 	                tooltip_aqi.transition()
 	                    .duration(500)
 	                    .style("opacity", 0);               
+                })
+
+                // tian ma 
+                .on("click", function(d){
+
                 });
         }
 
