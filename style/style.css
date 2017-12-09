@@ -1,11 +1,12 @@
 body{
 	background: #404a59;
+      /*background: rgb(48,50,60);*/
 }
 
 .tooltip_aqi {
       position: absolute;
       z-index: 9999;
-      padding: 0;
+      /*padding: 0;*/
       color: #fff;
       background: rgba(0,0,0,0.4);
       font-size: 14px;

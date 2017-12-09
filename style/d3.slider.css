@@ -1,5 +1,6 @@
 .d3-slider {
     position: relative;
+    background: linear-gradient(90deg, #2196F3, #FFC107, #FF5722, #F44336);
     font-family: Verdana,Arial,sans-serif;
     font-size: 1.1em;
     border: 1px solid #aaaaaa;
@@ -11,7 +12,8 @@
 }  
 
 .d3-slider-range {
-  background:#2980b9;
+  background:rgba(0,0,0,0);
+  /*background: linear-gradient(90deg, #2196F3, #FFC107, #FF5722, #F44336);*/
   left:0px;
   right:0px;
   height: 0.8em;
@@ -58,6 +60,7 @@
 
 .d3-slider-axis-bottom {
     top: .8em;
+    color: #fff;
 }
 
 .d3-slider-axis-right {
@@ -77,7 +80,9 @@
 
 .d3-slider-axis text {
     font-size: 11px;
+    stroke: #ddd;
 }
+
 
 .d3-slider-vertical .d3-slider-handle {
     left: -.25em;
